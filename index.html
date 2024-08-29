@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dictionary Web App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<body>
+    <header class="text-gray-400 bg-gray-900 body-font">
+        <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+            <a class="flex title-font font-medium items-center text-white mb-4 md:mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+                    stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full"
+                    viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-xl"> WORD-Dictionary </span>
+            </a>
+            <nav class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
+                <a class="mr-5 cursor-pointer text-xl  hover:text-white">Home </a>
+                <a class="mr-5 cursor-pointer text-xl  hover:text-white">Services</a>
+                <a class="mr-5 cursor-pointer text-xl  hover:text-white">About Us</a>
+                <a class="mr-5 cursor-pointer text-xl  hover:text-white">Contact</a>
+            </nav>
+            <button id="start"
+                class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0">Get
+                Started
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    class="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <section id="section"
+        class="text-gray-400 bg-gray-900 body-font h-[0] transition-all duration-[2.2s]  ease-linear overflow-hidden">
+        <div class="container px-5 py-24 mx-auto flex flex-col gap-5">
+            <div class="flex flex-col text-center w-full mb-12">
+                <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">Search For The Word In The
+                    Dictionary</h1>
+
+            </div>
+            <div
+                class="flex lg:w-2/3 w-full gap-4 items-center flex-col mx-auto px-8 sm:px-0 sm:space-x-4 sm:space-y-0 space-y-4">
+                <div class="relative sm:mb-0 flex-grow w-full">
+                    <label for="word" class="leading-7 text-sm text-gray-400">Enter The Word</label>
+                    <input type="text" id="word" name="full-name"
+                        class="w-full bg-gray-800 bg-opacity-40 rounded border border-gray-700 focus:border-purple-500 focus:ring-2 focus:ring-purple-900 focus:bg-transparent text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                </div>
+
+                <button id="submit"
+                    class="text-white bg-purple-500 border-0 py-2 px-8 focus:outline-none hover:bg-purple-600 rounded text-lg">Submit</button>
+            </div>
+            <div class="result flex flex-col gap-3 justify-evenly">
+                <h1 class="text-3xl text-indigo-400 underline ">RESULT :-</h1>
+                <div class="para1 flex items-center justify-between w-[90vw]">
+                    <p class="text-xl underline text-blue-200">You Searched For Word: <span
+                            class=" no-underline span font-bold text-xl text-red-600"></span></p>
+                    <p id="valid" class="text-3xl underline text-blue-200">Valid:<span id="true"
+                            class="font-bold text-3xl font capitalize text-red-600"></span> </p>
+                </div>
+
+                <p id="meaning" class="text-lg text-gray-400"></p>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+        let span = document.querySelector(".span")
+        let valid = document.querySelector("#true")
+        let meaning = document.querySelector("#meaning")
+        submit.addEventListener("click", (e) => {
+            e.preventDefault();
+            let url = `http://localhost:3000/search?word=${word.value}`
+            let r = fetch(url)
+            r.then(response => response.json())
+                .then(res => {
+                    let define = res.definition
+                    valid.innerHTML = `${res.valid}`
+                
+                    if(res.valid==true){
+                    meaning.innerHTML = `${define.replace("1.", '<br> 1.').replace("2.", '<br> 2.').replace("3.", '<br> 3.').replace("4.", '<br> 4.').replace("5.", '<br> 5.').replace("6.", '<br> 6.').replace("7.", '<br> 7.').replace("8.", '<br> 8.')}`
+                    }else{
+                        meaning.innerHTML=`WORD NOT FOUND`
+                    }
+            
+                })
+            span.innerHTML = "";
+            span.innerHTML = word.value
+        })
+        start.addEventListener("click", () => {
+            section.classList.remove("h-[0]")
+            section.classList.add("h-[1200px]")
+
+        })
+
+    </script>
+
+</body>
+
+</html>
